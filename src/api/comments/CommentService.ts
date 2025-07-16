@@ -6,6 +6,7 @@ import {
   commentSchema,
   commentsArraySchema,
 } from './schemas/schemas';
+import { createCustomError } from '../../common/middleware/errorHandler';
 
 export class CommentService {
   constructor(
@@ -28,7 +29,7 @@ export class CommentService {
   async getCommentsByPostId(postId: string): Promise<Comment[]> {
     const postExists = await this.postRepository.findById(postId);
     if (!postExists) {
-      throw new Error('Post not found');
+      throw createCustomError('Post not found', 404);
     }
 
     const comments = await this.commentRepository.findByPostId(postId);
@@ -38,7 +39,7 @@ export class CommentService {
   async createComment(commentData: CreateComment): Promise<Comment> {
     const postExists = await this.postRepository.findById(commentData.postId);
     if (!postExists) {
-      throw new Error('Post not found');
+      throw createCustomError('Post not found', 404);
     }
 
     const createdComment = await this.commentRepository.create(commentData);
@@ -55,7 +56,7 @@ export class CommentService {
     if (commentData.postId) {
       const postExists = await this.postRepository.findById(commentData.postId);
       if (!postExists) {
-        throw new Error('Post not found');
+        throw createCustomError('Post not found', 404);
       }
     }
 

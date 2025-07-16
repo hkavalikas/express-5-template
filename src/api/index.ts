@@ -1,6 +1,7 @@
 import express from 'express';
 import { createPostRoutes } from './posts/routes';
 import { createCommentRoutes } from './comments/routes';
+import { errorHandler } from '../common/middleware/errorHandler';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +17,8 @@ app.get('/', (req, res) => {
       'REST API with Express 5, TypeScript, Zod, Drizzle and Layered Architecture',
   });
 });
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -3,25 +3,22 @@ import { CommentController } from './CommentController';
 import { CommentService } from './CommentService';
 import { CommentRepository } from './CommentRepository';
 import { PostRepository } from '../posts/PostRepository';
+import { asyncRouterWrapper } from '../../common/middleware/asyncMiddleware';
 
 export function createCommentRoutes(): Router {
-  const router = Router();
+  const router = asyncRouterWrapper(Router());
 
   const commentRepository = new CommentRepository();
   const postRepository = new PostRepository();
   const commentService = new CommentService(commentRepository, postRepository);
   const commentController = new CommentController(commentService);
 
-  router.get('/', (req, res) => commentController.getAllComments(req, res));
-  router.get('/:id', (req, res) => commentController.getCommentById(req, res));
-  router.get('/post/:postId', (req, res) =>
-    commentController.getCommentsByPostId(req, res)
-  );
-  router.post('/', (req, res) => commentController.createComment(req, res));
-  router.put('/:id', (req, res) => commentController.updateComment(req, res));
-  router.delete('/:id', (req, res) =>
-    commentController.deleteComment(req, res)
-  );
+  router.get('/', commentController.getAllComments);
+  router.get('/:id', commentController.getCommentById);
+  router.get('/post/:postId', commentController.getCommentsByPostId);
+  router.post('/', commentController.createComment);
+  router.put('/:id', commentController.updateComment);
+  router.delete('/:id', commentController.deleteComment);
 
   return router;
 }

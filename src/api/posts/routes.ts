@@ -2,19 +2,20 @@ import { Router } from 'express';
 import { PostController } from './PostController';
 import { PostService } from './PostService';
 import { PostRepository } from './PostRepository';
+import { asyncRouterWrapper } from '../../common/middleware/asyncMiddleware';
 
 export function createPostRoutes(): Router {
-  const router = Router();
+  const router = asyncRouterWrapper(Router());
 
   const postRepository = new PostRepository();
   const postService = new PostService(postRepository);
   const postController = new PostController(postService);
 
-  router.get('/', (req, res) => postController.getAllPosts(req, res));
-  router.get('/:id', (req, res) => postController.getPostById(req, res));
-  router.post('/', (req, res) => postController.createPost(req, res));
-  router.put('/:id', (req, res) => postController.updatePost(req, res));
-  router.delete('/:id', (req, res) => postController.deletePost(req, res));
+  router.get('/', postController.getAllPosts);
+  router.get('/:id', postController.getPostById);
+  router.post('/', postController.createPost);
+  router.put('/:id', postController.updatePost);
+  router.delete('/:id', postController.deletePost);
 
   return router;
 }
