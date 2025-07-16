@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { PostController } from '../posts/PostController';
-import { PostService } from '../posts/PostService';
-import { PostRepository } from '../posts/PostRepository';
+import { PostController } from './PostController';
+import { PostService } from './PostService';
+import { PostRepository } from './PostRepository';
 
 export function createPostRoutes(): Router {
   const router = Router();

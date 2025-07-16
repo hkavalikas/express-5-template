@@ -1,6 +1,6 @@
 import express from 'express';
-import { createPostRoutes } from './routes/postRoutes';
-import { createCommentRoutes } from './routes/commentRoutes';
+import { createPostRoutes } from './posts/routes';
+import { createCommentRoutes } from './comments/routes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;

@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { CommentController } from '../comments/CommentController';
-import { CommentService } from '../comments/CommentService';
-import { CommentRepository } from '../comments/CommentRepository';
+import { CommentController } from './CommentController';
+import { CommentService } from './CommentService';
+import { CommentRepository } from './CommentRepository';
 import { PostRepository } from '../posts/PostRepository';
 
 export function createCommentRoutes(): Router {
