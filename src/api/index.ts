@@ -11,7 +11,7 @@ app.use(express.json());
 app.use('/api/posts', createPostRoutes());
 app.use('/api/comments', createCommentRoutes());
 
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.json({
     message: 'API is running',
   });
