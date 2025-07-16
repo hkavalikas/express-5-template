@@ -13,3 +13,4 @@ yarn-error.log*
 dist/*
 database.db
 .DS_Store
+coverage/*

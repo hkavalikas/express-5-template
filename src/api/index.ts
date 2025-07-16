@@ -11,10 +11,9 @@ app.use(express.json());
 app.use('/api/posts', createPostRoutes());
 app.use('/api/comments', createCommentRoutes());
 
-app.get('/', (req, res) => {
+app.get('/health', (_req, res) => {
   res.json({
-    message:
-      'REST API with Express 5, TypeScript, Zod, Drizzle and Layered Architecture',
+    message: 'API is running',
   });
 });
 

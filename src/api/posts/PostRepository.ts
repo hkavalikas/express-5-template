@@ -5,7 +5,7 @@ import { Post, CreatePost } from './schemas/schemas';
 
 export class PostRepository {
   async findAll(): Promise<Post[]> {
-    return await db.select().from(posts);
+    return db.select().from(posts);
   }
 
   async findById(id: string): Promise<Post | null> {

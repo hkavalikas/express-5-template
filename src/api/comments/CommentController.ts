@@ -7,7 +7,7 @@ import { createCustomError } from '../../common/middleware/errorHandler';
 export class CommentController {
   constructor(private commentService: CommentService) {}
 
-  getAllComments = async (req: Request, res: Response): Promise<void> => {
+  getAllComments = async (_req: Request, res: Response): Promise<void> => {
     const comments = await this.commentService.getAllComments();
     res.json(comments);
   };

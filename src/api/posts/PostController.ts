@@ -7,7 +7,7 @@ import { createCustomError } from '../../common/middleware/errorHandler';
 export class PostController {
   constructor(private postService: PostService) {}
 
-  getAllPosts = async (req: Request, res: Response): Promise<void> => {
+  getAllPosts = async (_req: Request, res: Response): Promise<void> => {
     const posts = await this.postService.getAllPosts();
     res.json(posts);
   };
