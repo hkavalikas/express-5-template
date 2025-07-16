@@ -29,7 +29,6 @@ export const errorHandler = (
   }
 
   if (error instanceof ZodError) {
-    console.error('Validation error:', error.errors);
     res.status(400).json({
       error: 'Invalid request data',
       details: error.errors,
@@ -38,14 +37,11 @@ export const errorHandler = (
   }
 
   if (error instanceof AppError) {
-    console.error('Application error:', error.message);
     res.status(error.statusCode).json({
       error: error.message,
     });
     return;
   }
-
-  console.error('Unexpected error:', error);
 
   res.status(500).json({
     error: 'Internal server error',
@@ -53,7 +49,7 @@ export const errorHandler = (
 };
 
 export const asyncHandler = (
-  fn: (req: Request, res: Response, next?: NextFunction) => Promise<void>
+  fn: (req: Request, res: Response, next: NextFunction) => void | Promise<void>
 ) => {
   return (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch(next);
@@ -65,7 +61,30 @@ export const wrapAsyncRoutes = (router: Router) => {
 
   originalMethods.forEach((method) => {
     const originalMethod = router[method].bind(router);
-    (router as any)[method] = function (path: string, ...handlers: any[]) {
+    (
+      router as Record<
+        typeof method,
+        (
+          path: string,
+          ...handlers: Array<
+            (
+              req: Request,
+              res: Response,
+              next: NextFunction
+            ) => void | Promise<void>
+          >
+        ) => Router
+      >
+    )[method] = function (
+      path: string,
+      ...handlers: Array<
+        (
+          req: Request,
+          res: Response,
+          next: NextFunction
+        ) => void | Promise<void>
+      >
+    ) {
       const wrappedHandlers = handlers.map((handler) => {
         if (
           typeof handler === 'function' &&
