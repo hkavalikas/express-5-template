@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, Router } from 'express';
 import { ZodError } from 'zod';
 
 export class AppError extends Error {
@@ -20,7 +20,7 @@ export const createCustomError = (message: string, statusCode: number) => {
 
 export const errorHandler = (
   error: Error,
-  req: Request,
+  _req: Request,
   res: Response,
   next: NextFunction
 ): void => {
@@ -60,19 +60,22 @@ export const asyncHandler = (
   };
 };
 
-export const wrapAsyncRoutes = (router: any) => {
-  const originalMethods = ['get', 'post', 'put', 'delete', 'patch'];
+export const wrapAsyncRoutes = (router: Router) => {
+  const originalMethods = ['get', 'post', 'put', 'delete', 'patch'] as const;
 
   originalMethods.forEach((method) => {
-    const originalMethod = router[method];
-    router[method] = function (path: string, ...handlers: any[]) {
+    const originalMethod = router[method].bind(router);
+    (router as any)[method] = function (path: string, ...handlers: any[]) {
       const wrappedHandlers = handlers.map((handler) => {
-        if (handler.constructor.name === 'AsyncFunction') {
+        if (
+          typeof handler === 'function' &&
+          handler.constructor.name === 'AsyncFunction'
+        ) {
           return asyncHandler(handler);
         }
         return handler;
       });
-      return originalMethod.call(this, path, ...wrappedHandlers);
+      return originalMethod(path, ...wrappedHandlers);
     };
   });
 

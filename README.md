@@ -9,6 +9,7 @@ A modern REST API template built with Express 5, TypeScript, Zod validation, and
 - **Zod** - Runtime type validation and schema definition
 - **Drizzle ORM** - Type-safe database operations with SQLite
 - **Layered Architecture** - Clean separation of concerns (Controller → Service → Repository)
+- **Automatic Error Handling** - Centralized error handling for async routes
 - **ESLint & Prettier** - Code formatting and linting
 - **Husky & lint-staged** - Pre-commit hooks for code quality
 - **Hot Reload** - Development server with auto-restart
@@ -38,6 +39,8 @@ src/
     │   ├── index.ts          # Database connection
     │   ├── schema.ts         # Database schema
     │   └── migrations/       # Database migrations
+    ├── middleware/
+    │   └── errorHandler.ts   # Error handling middleware
     └── schemas/
         └── schema.ts         # Shared validation schemas
 ```
@@ -106,6 +109,14 @@ This template follows a layered architecture pattern:
 1. **Controller Layer** - Handles HTTP requests/responses and validation
 2. **Service Layer** - Contains business logic and orchestrates operations
 3. **Repository Layer** - Manages data access and database operations
+
+### Error Handling
+
+The template includes automatic error handling for async routes:
+- **wrapAsyncRoutes()** - Automatically wraps async route handlers to catch errors
+- **errorHandler()** - Centralized error handling middleware with proper status codes
+- **AppError** - Custom error class for application-specific errors
+- **Zod validation** - Automatic validation error handling with detailed messages
 
 ## Database
 
