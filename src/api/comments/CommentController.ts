@@ -1,10 +1,6 @@
 import { Request, Response } from 'express';
 import { CommentService } from './CommentService';
-import {
-  createCommentSchema,
-  postIdParamSchema,
-  CreateComment,
-} from './schemas/schemas';
+import { createCommentSchema, CreateComment } from './schemas/schemas';
 import { idParamSchema } from '../../common/schemas/schema';
 import { createCustomError } from '../../common/middleware/errorHandler';
 
@@ -28,8 +24,8 @@ export class CommentController {
   };
 
   getCommentsByPostId = async (req: Request, res: Response): Promise<void> => {
-    const { postId } = postIdParamSchema.parse(req.params);
-    const comments = await this.commentService.getCommentsByPostId(postId);
+    const { id } = idParamSchema.parse(req.params);
+    const comments = await this.commentService.getCommentsByPostId(id);
 
     res.json(comments);
   };

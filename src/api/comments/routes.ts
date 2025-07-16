@@ -15,7 +15,7 @@ export function createCommentRoutes(): Router {
 
   router.get('/', commentController.getAllComments);
   router.get('/:id', commentController.getCommentById);
-  router.get('/post/:postId', commentController.getCommentsByPostId);
+  router.get('/post/:id', commentController.getCommentsByPostId);
   router.post('/', commentController.createComment);
   router.put('/:id', commentController.updateComment);
   router.delete('/:id', commentController.deleteComment);

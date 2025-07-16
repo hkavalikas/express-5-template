@@ -1,9 +1,5 @@
 import { z } from 'zod';
 
-export const postIdParamSchema = z.object({
-  postId: z.string().uuid('Invalid post ID format'),
-});
-
 export const createCommentSchema = z.object({
   postId: z.string().uuid('Invalid post ID format'),
   content: z.string().min(1, 'Content is required'),
@@ -22,4 +18,3 @@ export const commentsArraySchema = z.array(commentSchema);
 
 export type CreateComment = z.infer<typeof createCommentSchema>;
 export type Comment = z.infer<typeof commentSchema>;
-export type PostIdParam = z.infer<typeof postIdParamSchema>;
