@@ -6,8 +6,8 @@
   "scripts": {
     "build": "esbuild src/api/index.ts --bundle --platform=node --outfile=dist/index.js",
     "dev": "concurrently \"esbuild src/api/index.ts --bundle --platform=node --outfile=dist/index.js --watch\" \"nodemon dist/index.js\"",
-    "db:generate": "drizzle-kit generate:sqlite",
-    "db:push": "drizzle-kit push:sqlite",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
     "lint": "eslint \"{src/**/*.ts,*.ts}\"",
     "lint:fix": "eslint \"{src/**/*.ts,*.ts}\" --fix",
     "format": "prettier --write \"{src/**/*.ts,*.ts}\"",
@@ -18,8 +18,8 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@libsql/client": "^0.5.2",
-    "drizzle-orm": "^0.30.10",
+    "@libsql/client": "^0.15.10",
+    "drizzle-orm": "^0.44.3",
     "express": "^5.0.0-beta.3",
     "zod": "^3.22.4"
   },
@@ -32,7 +32,7 @@
     "@typescript-eslint/parser": "^8.37.0",
     "audit-ci": "^6.6.1",
     "concurrently": "^8.2.2",
-    "drizzle-kit": "^0.18.1",
+    "drizzle-kit": "^0.31.4",
     "esbuild": "^0.25.6",
     "eslint": "^9.31.0",
     "eslint-config-prettier": "^10.1.5",
