@@ -7,6 +7,7 @@ export const createDb = () => {
     url: ':memory:',
   });
 
+  console.log('Creating in-memory database...');
   const db = drizzle(client);
 
   // Create tables

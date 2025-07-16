@@ -50,7 +50,7 @@
     "{src/**/*.ts,*.ts}": [
       "eslint --fix",
       "prettier --write",
-      "jest --findRelatedTests --passWithNoTests"
+      "jest --testPathPattern=src/__tests__"
     ]
   },
   "private": true
