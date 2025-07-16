@@ -42,7 +42,7 @@ export default [
       'prefer-const': 'error',
       'no-var': 'error',
       'prettier/prettier': 'error',
-      'indent': 'off',
+      indent: 'off',
       '@typescript-eslint/indent': 'off',
     },
   },
@@ -89,11 +89,11 @@ export default [
       'prefer-const': 'error',
       'no-var': 'error',
       'prettier/prettier': 'error',
-      'indent': 'off',
+      indent: 'off',
       '@typescript-eslint/indent': 'off',
     },
   },
   {
-    ignores: ['dist/**', 'node_modules/**', 'drizzle/**'],
+    ignores: ['dist/**', 'node_modules/**', 'drizzle/**', 'jest.config.js'],
   },
 ];
