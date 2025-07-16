@@ -59,3 +59,22 @@ export const asyncHandler = (
     Promise.resolve(fn(req, res, next)).catch(next);
   };
 };
+
+export const wrapAsyncRoutes = (router: any) => {
+  const originalMethods = ['get', 'post', 'put', 'delete', 'patch'];
+
+  originalMethods.forEach((method) => {
+    const originalMethod = router[method];
+    router[method] = function (path: string, ...handlers: any[]) {
+      const wrappedHandlers = handlers.map((handler) => {
+        if (handler.constructor.name === 'AsyncFunction') {
+          return asyncHandler(handler);
+        }
+        return handler;
+      });
+      return originalMethod.call(this, path, ...wrappedHandlers);
+    };
+  });
+
+  return router;
+};

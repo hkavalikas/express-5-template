@@ -2,20 +2,20 @@ import { Router } from 'express';
 import { PostController } from './PostController';
 import { PostService } from './PostService';
 import { PostRepository } from './PostRepository';
-import { asyncHandler } from '../../common/middleware/errorHandler';
+import { wrapAsyncRoutes } from '../../common/middleware/errorHandler';
 
 export function createPostRoutes(): Router {
-  const router = Router();
+  const router = wrapAsyncRoutes(Router());
 
   const postRepository = new PostRepository();
   const postService = new PostService(postRepository);
   const postController = new PostController(postService);
 
-  router.get('/', asyncHandler(postController.getAllPosts));
-  router.get('/:id', asyncHandler(postController.getPostById));
-  router.post('/', asyncHandler(postController.createPost));
-  router.put('/:id', asyncHandler(postController.updatePost));
-  router.delete('/:id', asyncHandler(postController.deletePost));
+  router.get('/', postController.getAllPosts);
+  router.get('/:id', postController.getPostById);
+  router.post('/', postController.createPost);
+  router.put('/:id', postController.updatePost);
+  router.delete('/:id', postController.deletePost);
 
   return router;
 }
