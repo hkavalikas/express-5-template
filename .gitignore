@@ -12,3 +12,4 @@ yarn-error.log*
 .idea/*
 dist/*
 database.db
+.DS_Store
