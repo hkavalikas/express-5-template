@@ -5,7 +5,7 @@ import { Comment, CreateComment } from './schemas/schemas';
 
 export class CommentRepository {
   async findAll(): Promise<Comment[]> {
-    return await db.select().from(comments);
+    return db.select().from(comments);
   }
 
   async findById(id: string): Promise<Comment | null> {
@@ -14,7 +14,7 @@ export class CommentRepository {
   }
 
   async findByPostId(postId: string): Promise<Comment[]> {
-    return await db.select().from(comments).where(eq(comments.postId, postId));
+    return db.select().from(comments).where(eq(comments.postId, postId));
   }
 
   async create(commentData: CreateComment): Promise<Comment> {
