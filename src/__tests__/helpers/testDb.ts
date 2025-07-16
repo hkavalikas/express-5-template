@@ -2,7 +2,7 @@ import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
 import { posts, comments } from '../../common/db/schema';
 
-export const createTestDb = () => {
+export const createDb = () => {
   const client = createClient({
     url: ':memory:',
   });
@@ -33,14 +33,12 @@ export const createTestDb = () => {
   return { db, client };
 };
 
-export const cleanupDb = async (db: ReturnType<typeof createTestDb>['db']) => {
+export const cleanupDb = async (db: ReturnType<typeof createDb>['db']) => {
   await db.delete(comments);
   await db.delete(posts);
 };
 
-export const seedTestData = async (
-  db: ReturnType<typeof createTestDb>['db']
-) => {
+export const seedTestData = async (db: ReturnType<typeof createDb>['db']) => {
   // Insert test posts
   const testPosts = await db
     .insert(posts)
