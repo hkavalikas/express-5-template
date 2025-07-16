@@ -59,22 +59,3 @@ export const asyncHandler = (
     Promise.resolve(fn(req, res, next)).catch(next);
   };
 };
-
-export const asyncErrorHandler = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const originalSend = res.send;
-  const originalJson = res.json;
-
-  res.send = function (body) {
-    return originalSend.call(this, body);
-  };
-
-  res.json = function (body) {
-    return originalJson.call(this, body);
-  };
-
-  next();
-};
