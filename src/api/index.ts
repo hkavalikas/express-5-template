@@ -11,7 +11,10 @@ app.use('/api/posts', createPostRoutes());
 app.use('/api/comments', createCommentRoutes());
 
 app.get('/', (req, res) => {
-  res.json({ message: 'REST API with Express 5, TypeScript, Zod, Drizzle and Layered Architecture' });
+  res.json({
+    message:
+      'REST API with Express 5, TypeScript, Zod, Drizzle and Layered Architecture',
+  });
 });
 
 app.listen(PORT, () => {

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { PostService } from './PostService';
 import { createPostSchema, CreatePost } from './schemas/schemas';
 import { ZodError } from 'zod';
-import {idParamSchema} from "../../common/schemas/schema";
+import { idParamSchema } from '../../common/schemas/schema';
 
 export class PostController {
   constructor(private postService: PostService) {}
@@ -11,7 +11,7 @@ export class PostController {
     try {
       const posts = await this.postService.getAllPosts();
       res.json(posts);
-    } catch (error) {
+    } catch {
       res.status(500).json({ error: 'Failed to fetch posts' });
     }
   }
@@ -20,7 +20,7 @@ export class PostController {
     try {
       const { id } = idParamSchema.parse(req.params);
       const post = await this.postService.getPostById(id);
-      
+
       if (!post) {
         res.status(404).json({ error: 'Post not found' });
         return;
@@ -29,7 +29,9 @@ export class PostController {
       res.json(post);
     } catch (error) {
       if (error instanceof ZodError) {
-        res.status(400).json({ error: 'Invalid request data', details: error.errors });
+        res
+          .status(400)
+          .json({ error: 'Invalid request data', details: error.errors });
       } else {
         res.status(500).json({ error: 'Failed to fetch post' });
       }
@@ -45,7 +47,9 @@ export class PostController {
       res.status(201).json(post);
     } catch (error) {
       if (error instanceof ZodError) {
-        res.status(400).json({ error: 'Invalid request data', details: error.errors });
+        res
+          .status(400)
+          .json({ error: 'Invalid request data', details: error.errors });
       } else {
         res.status(500).json({ error: 'Failed to create post' });
       }
@@ -55,10 +59,12 @@ export class PostController {
   async updatePost(req: Request, res: Response): Promise<void> {
     try {
       const { id } = idParamSchema.parse(req.params);
-      const validatedData: Partial<CreatePost> = createPostSchema.partial().parse(req.body);
-      
+      const validatedData: Partial<CreatePost> = createPostSchema
+        .partial()
+        .parse(req.body);
+
       const post = await this.postService.updatePost(id, validatedData);
-      
+
       if (!post) {
         res.status(404).json({ error: 'Post not found' });
         return;
@@ -67,7 +73,9 @@ export class PostController {
       res.json(post);
     } catch (error) {
       if (error instanceof ZodError) {
-        res.status(400).json({ error: 'Invalid request data', details: error.errors });
+        res
+          .status(400)
+          .json({ error: 'Invalid request data', details: error.errors });
       } else {
         res.status(500).json({ error: 'Failed to update post' });
       }
@@ -78,7 +86,7 @@ export class PostController {
     try {
       const { id } = idParamSchema.parse(req.params);
       const deleted = await this.postService.deletePost(id);
-      
+
       if (!deleted) {
         res.status(404).json({ error: 'Post not found' });
         return;
@@ -87,7 +95,9 @@ export class PostController {
       res.status(204).send();
     } catch (error) {
       if (error instanceof ZodError) {
-        res.status(400).json({ error: 'Invalid request data', details: error.errors });
+        res
+          .status(400)
+          .json({ error: 'Invalid request data', details: error.errors });
       } else {
         res.status(500).json({ error: 'Failed to delete post' });
       }

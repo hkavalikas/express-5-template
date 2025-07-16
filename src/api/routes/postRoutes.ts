@@ -5,7 +5,7 @@ import { PostRepository } from '../posts/PostRepository';
 
 export function createPostRoutes(): Router {
   const router = Router();
-  
+
   const postRepository = new PostRepository();
   const postService = new PostService(postRepository);
   const postController = new PostController(postService);

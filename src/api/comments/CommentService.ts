@@ -1,6 +1,11 @@
 import { CommentRepository } from './CommentRepository';
 import { PostRepository } from '../posts/PostRepository';
-import { Comment, CreateComment, commentSchema, commentsArraySchema } from './schemas/schemas';
+import {
+  Comment,
+  CreateComment,
+  commentSchema,
+  commentsArraySchema,
+} from './schemas/schemas';
 
 export class CommentService {
   constructor(
@@ -16,7 +21,7 @@ export class CommentService {
   async getCommentById(id: string): Promise<Comment | null> {
     const comment = await this.commentRepository.findById(id);
     if (!comment) return null;
-    
+
     return commentSchema.parse(comment);
   }
 
@@ -40,7 +45,10 @@ export class CommentService {
     return commentSchema.parse(createdComment);
   }
 
-  async updateComment(id: string, commentData: Partial<CreateComment>): Promise<Comment | null> {
+  async updateComment(
+    id: string,
+    commentData: Partial<CreateComment>
+  ): Promise<Comment | null> {
     const existingComment = await this.commentRepository.findById(id);
     if (!existingComment) return null;
 

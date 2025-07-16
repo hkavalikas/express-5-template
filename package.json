@@ -7,7 +7,12 @@
     "build": "esbuild src/api/index.ts --bundle --platform=node --outfile=dist/index.js",
     "dev": "concurrently \"esbuild src/api/index.ts --bundle --platform=node --outfile=dist/index.js --watch\" \"nodemon dist/index.js\"",
     "db:generate": "drizzle-kit generate:sqlite",
-    "db:push": "drizzle-kit push:sqlite"
+    "db:push": "drizzle-kit push:sqlite",
+    "lint": "eslint \"{src/**/*.ts,*.ts}\"",
+    "lint:fix": "eslint \"{src/**/*.ts,*.ts}\" --fix",
+    "format": "prettier --write \"{src/**/*.ts,*.ts}\"",
+    "format:check": "prettier --check \"{src/**/*.ts,*.ts}\"",
+    "prepare": "husky"
   },
   "dependencies": {
     "@libsql/client": "^0.5.2",
@@ -18,11 +23,25 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.24",
+    "@typescript-eslint/eslint-plugin": "^8.37.0",
+    "@typescript-eslint/parser": "^8.37.0",
     "concurrently": "^8.2.2",
     "drizzle-kit": "^0.20.17",
     "esbuild": "^0.20.2",
+    "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
     "typescript": "^5.5.3"
+  },
+  "lint-staged": {
+    "{src/**/*.ts,*.ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "private": true
 }

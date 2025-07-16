@@ -1,5 +1,5 @@
-import {z} from "zod";
+import { z } from 'zod';
 
 export const idParamSchema = z.object({
-    id: z.string().uuid('Invalid ID format'),
+  id: z.string().uuid('Invalid ID format'),
 });

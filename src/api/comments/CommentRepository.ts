@@ -18,17 +18,24 @@ export class CommentRepository {
   }
 
   async create(commentData: CreateComment): Promise<Comment> {
-    const result = await db.insert(comments).values({
-      postId: commentData.postId,
-      content: commentData.content,
-      author: commentData.author,
-    }).returning();
-    
+    const result = await db
+      .insert(comments)
+      .values({
+        postId: commentData.postId,
+        content: commentData.content,
+        author: commentData.author,
+      })
+      .returning();
+
     return result[0];
   }
 
-  async update(id: string, commentData: Partial<CreateComment>): Promise<Comment | null> {
-    const result = await db.update(comments)
+  async update(
+    id: string,
+    commentData: Partial<CreateComment>
+  ): Promise<Comment | null> {
+    const result = await db
+      .update(comments)
       .set(commentData)
       .where(eq(comments.id, id))
       .returning();
@@ -37,7 +44,10 @@ export class CommentRepository {
   }
 
   async delete(id: string): Promise<boolean> {
-    const result = await db.delete(comments).where(eq(comments.id, id)).returning();
+    const result = await db
+      .delete(comments)
+      .where(eq(comments.id, id))
+      .returning();
     return result.length > 0;
   }
 }

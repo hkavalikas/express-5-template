@@ -14,16 +14,23 @@ export class PostRepository {
   }
 
   async create(postData: Omit<CreatePost, 'id'>): Promise<Post> {
-    const result = await db.insert(posts).values({
-      title: postData.title,
-      content: postData.content,
-    }).returning();
-    
+    const result = await db
+      .insert(posts)
+      .values({
+        title: postData.title,
+        content: postData.content,
+      })
+      .returning();
+
     return result[0];
   }
 
-  async update(id: string, postData: Partial<CreatePost>): Promise<Post | null> {
-    const result = await db.update(posts)
+  async update(
+    id: string,
+    postData: Partial<CreatePost>
+  ): Promise<Post | null> {
+    const result = await db
+      .update(posts)
       .set({
         ...postData,
         updatedAt: new Date(),

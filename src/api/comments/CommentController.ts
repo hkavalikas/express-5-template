@@ -1,8 +1,12 @@
 import { Request, Response } from 'express';
 import { CommentService } from './CommentService';
-import { createCommentSchema, postIdParamSchema, CreateComment } from './schemas/schemas';
+import {
+  createCommentSchema,
+  postIdParamSchema,
+  CreateComment,
+} from './schemas/schemas';
 import { ZodError } from 'zod';
-import {idParamSchema} from "../../common/schemas/schema";
+import { idParamSchema } from '../../common/schemas/schema';
 
 export class CommentController {
   constructor(private commentService: CommentService) {}
@@ -11,7 +15,7 @@ export class CommentController {
     try {
       const comments = await this.commentService.getAllComments();
       res.json(comments);
-    } catch (error) {
+    } catch {
       res.status(500).json({ error: 'Failed to fetch comments' });
     }
   }
@@ -20,7 +24,7 @@ export class CommentController {
     try {
       const { id } = idParamSchema.parse(req.params);
       const comment = await this.commentService.getCommentById(id);
-      
+
       if (!comment) {
         res.status(404).json({ error: 'Comment not found' });
         return;
@@ -29,7 +33,9 @@ export class CommentController {
       res.json(comment);
     } catch (error) {
       if (error instanceof ZodError) {
-        res.status(400).json({ error: 'Invalid request data', details: error.errors });
+        res
+          .status(400)
+          .json({ error: 'Invalid request data', details: error.errors });
       } else {
         res.status(500).json({ error: 'Failed to fetch comment' });
       }
@@ -40,11 +46,13 @@ export class CommentController {
     try {
       const { postId } = postIdParamSchema.parse(req.params);
       const comments = await this.commentService.getCommentsByPostId(postId);
-      
+
       res.json(comments);
     } catch (error) {
       if (error instanceof ZodError) {
-        res.status(400).json({ error: 'Invalid request data', details: error.errors });
+        res
+          .status(400)
+          .json({ error: 'Invalid request data', details: error.errors });
       } else if (error instanceof Error && error.message === 'Post not found') {
         res.status(404).json({ error: 'Post not found' });
       } else {
@@ -57,11 +65,13 @@ export class CommentController {
     try {
       const validatedData: CreateComment = createCommentSchema.parse(req.body);
       const comment = await this.commentService.createComment(validatedData);
-      
+
       res.status(201).json(comment);
     } catch (error) {
       if (error instanceof ZodError) {
-        res.status(400).json({ error: 'Invalid request data', details: error.errors });
+        res
+          .status(400)
+          .json({ error: 'Invalid request data', details: error.errors });
       } else if (error instanceof Error && error.message === 'Post not found') {
         res.status(404).json({ error: 'Post not found' });
       } else {
@@ -73,10 +83,15 @@ export class CommentController {
   async updateComment(req: Request, res: Response): Promise<void> {
     try {
       const { id } = idParamSchema.parse(req.params);
-      const validatedData: Partial<CreateComment> = createCommentSchema.partial().parse(req.body);
-      
-      const comment = await this.commentService.updateComment(id, validatedData);
-      
+      const validatedData: Partial<CreateComment> = createCommentSchema
+        .partial()
+        .parse(req.body);
+
+      const comment = await this.commentService.updateComment(
+        id,
+        validatedData
+      );
+
       if (!comment) {
         res.status(404).json({ error: 'Comment not found' });
         return;
@@ -85,7 +100,9 @@ export class CommentController {
       res.json(comment);
     } catch (error) {
       if (error instanceof ZodError) {
-        res.status(400).json({ error: 'Invalid request data', details: error.errors });
+        res
+          .status(400)
+          .json({ error: 'Invalid request data', details: error.errors });
       } else if (error instanceof Error && error.message === 'Post not found') {
         res.status(404).json({ error: 'Post not found' });
       } else {
@@ -98,7 +115,7 @@ export class CommentController {
     try {
       const { id } = idParamSchema.parse(req.params);
       const deleted = await this.commentService.deleteComment(id);
-      
+
       if (!deleted) {
         res.status(404).json({ error: 'Comment not found' });
         return;
@@ -107,7 +124,9 @@ export class CommentController {
       res.status(204).send();
     } catch (error) {
       if (error instanceof ZodError) {
-        res.status(400).json({ error: 'Invalid request data', details: error.errors });
+        res
+          .status(400)
+          .json({ error: 'Invalid request data', details: error.errors });
       } else {
         res.status(500).json({ error: 'Failed to delete comment' });
       }
