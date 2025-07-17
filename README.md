@@ -4,7 +4,7 @@ A modern REST API template built with Express 5, TypeScript, Zod validation, and
 
 ## Features
 
-- **Express 5 Beta** - Latest version with improved performance
+- **Express 5** - Latest version with improved performance
 - **TypeScript** - Full type safety throughout the application
 - **Zod** - Runtime type validation and schema definition
 - **Drizzle ORM** - Type-safe database operations with SQLite
